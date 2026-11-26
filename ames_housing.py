@@ -22,9 +22,22 @@ REQUIRED_COLUMNS = ["SalePrice", "OverallQual", "GrLivArea", "Neighborhood"]
 # 2. LOAD DATA
 # =========================================================
 @st.cache_data
-def load_csv(file):
-    data = pd.read_csv(file)
+from pathlib import Path
+import pandas as pd
+import streamlit as st
 
+# Lokasi file train.csv berdasarkan lokasi kode Python
+BASE_DIR = Path(__file__).resolve().parent
+CSV_PATH = BASE_DIR / "train.csv"
+
+# Baca dataset
+if CSV_PATH.exists():
+    df = pd.read_csv(CSV_PATH)
+else:
+    st.error(
+        f"File train.csv tidak ditemukan di: {CSV_PATH}"
+    )
+    st.stop()
     # Bersihkan nama kolom
     data.columns = (
         data.columns.astype(str)
