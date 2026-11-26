@@ -24,11 +24,14 @@ REQUIRED_COLUMNS = ["SalePrice", "OverallQual", "GrLivArea", "Neighborhood"]
 @st.cache_data
 def load_csv(file):
     data = pd.read_csv(file)
+
+    # Bersihkan nama kolom
     data.columns = (
         data.columns.astype(str)
         .str.replace("\ufeff", "", regex=False)
         .str.strip()
     )
+
     return data
 
 def prepare_data(data):
